@@ -2,11 +2,15 @@
 
 require_relative "ntcharts/version"
 
-begin
-  major, minor, _patch = RUBY_VERSION.split(".")
-  require_relative "ntcharts/#{major}.#{minor}/ntcharts"
-rescue LoadError
-  require_relative "ntcharts/ntcharts"
+if RUBY_ENGINE == "jruby"
+  require_relative "ntcharts/jruby"
+else
+  begin
+    major, minor, _patch = RUBY_VERSION.split(".")
+    require_relative "ntcharts/#{major}.#{minor}/ntcharts"
+  rescue LoadError
+    require_relative "ntcharts/ntcharts"
+  end
 end
 
 require_relative "ntcharts/bar_data"
